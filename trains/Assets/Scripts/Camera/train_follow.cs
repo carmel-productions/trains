@@ -16,14 +16,22 @@ using UnityEngine;
 public class train_follow : MonoBehaviour
 {
   public GameObject target; // Camera anchor point on the train
-  public float smooth_time = 0.3f;
-  public float x_offset = 0.0f;
-  public float y_offset = 0.0f;
-  public float cam_distance = -10.0f;
-  public float cam_start_dist = -100.0f;
+  public float smooth_time = 0.3f; // smooth time for smoothing camera
+  public float x_offset = 0.0f; // x offset for camera
+  public float y_offset = 0.0f; // y offset for camera
+  public float cam_distance = -10.0f; // distance the camera should be from the target
+  public float cam_start_dist = -100.0f; // starting distance from the target
+
+  public static float cam_dist; // distance of camera to target
 
   private Vector3 vel = Vector3.zero;
-  
+
+  /**************************************************************************/
+  /*!
+    \brief 
+      Starts the camera zoomed out so it can smoothly zoom in at the beginning.
+  */
+  /**************************************************************************/
   void Start()
   {
     Vector3 pos = transform.position;
@@ -42,6 +50,8 @@ public class train_follow : MonoBehaviour
   {
     if(target)
     {
+      cam_dist = transform.position.z; 
+
       Vector3 dest = target.transform.position;
 
       dest.x += x_offset;
