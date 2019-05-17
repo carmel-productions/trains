@@ -19,7 +19,7 @@ public class train_follow : MonoBehaviour
   public float smooth_time = 0.3f; // smooth time for smoothing camera
   public float x_offset = 0.0f; // x offset for camera
   public float y_offset = 0.0f; // y offset for camera
-  public float cam_distance = -10.0f; // distance the camera should be from the target
+  public float follow_dist = 10.0f; // distance the camera should be from the target
   public float cam_start_dist = -100.0f; // starting distance from the target
 
   public static float cam_dist; // distance of camera to target
@@ -56,7 +56,7 @@ public class train_follow : MonoBehaviour
 
       dest.x += x_offset;
       dest.y += y_offset;
-      dest.z = cam_distance;
+      dest.z = target.transform.position.z - follow_dist;
       transform.position = Vector3.SmoothDamp(transform.position, dest, ref vel, smooth_time);
     }
   }

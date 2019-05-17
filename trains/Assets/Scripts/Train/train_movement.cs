@@ -28,7 +28,7 @@ public class train_movement : MonoBehaviour
   /**************************************************************************/
   void FixedUpdate()
   {
-    Rigidbody body = this.GetComponent<Rigidbody>();
+    Rigidbody2D body = this.GetComponent<Rigidbody2D>();
     body.velocity = Vector3.Lerp(body.velocity, velocity, smoothing_factor * Time.deltaTime); 
   }
 }

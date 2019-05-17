@@ -6,22 +6,29 @@ public class cannon_fire : MonoBehaviour
 {
   public GameObject projectile; // the projectile being fired from the cannon
 
+  public Vector3 bullet_velocity = new Vector3(30,30,0);
+  
   public float firerate = 1.0f;
+  private float cooldown = 1.0f; // time until next shot allowed 1.0f means you can fire once per second
 
   public static bool firing = false;
 
-  private float cooldown = 1.0f; // time until next shot allowed 1.0f means you can fire once per second
-
   void Fire()
   {
+    GameObject nobject = Instantiate(projectile);
+
     // spawn a bullet
-    GameObject nobject = GameObject.Instantiate(projectile);
-    nobject.GetComponent<MeshRenderer>().enabled = true;
-    Rigidbody body = nobject.GetComponent<Rigidbody>();
+    nobject.GetComponent<SpriteRenderer>().enabled = true;
+    Rigidbody2D body = nobject.GetComponent<Rigidbody2D>();
+    nobject.AddComponent<bullet_lifetime>();
+    nobject.transform.position = transform.position;
+    nobject.transform.rotation = transform.rotation;
     // calculate the velocity
-    Vector3 velocity = new Vector3(30, 30, 0);
+    Vector3 velocity = bullet_velocity;
     velocity = transform.rotation * velocity;
     body.velocity = velocity;
+    nobject.GetComponent<bullet_lifetime>().enabled = true;
+    Debug.Log("Firing bullet");
   }
 
   void Start()
@@ -32,11 +39,7 @@ public class cannon_fire : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    // keep the flyweight from moving away
-    projectile.GetComponent<Rigidbody>().velocity = Vector3.zero;
-    
-
-    firing = (Input.GetKeyDown(KeyCode.Mouse0)) ? true : false;
+    firing = (Input.GetKey(KeyCode.Mouse0)) ? true : false;
 
     cooldown -= Time.deltaTime;
 
