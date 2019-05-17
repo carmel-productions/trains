@@ -15,7 +15,9 @@ using UnityEngine;
 
 public class train_movement : MonoBehaviour
 {
-  public Vector3 velocity = new Vector3(1,0,0);
+  public Vector3 velocity = new Vector3(10,0,0);
+
+  public float smoothing_factor = 1.0f;
 
   /**************************************************************************/
   /*!
@@ -26,7 +28,7 @@ public class train_movement : MonoBehaviour
   /**************************************************************************/
   void FixedUpdate()
   {
-    Rigidbody body = this.GetComponentInParent<Rigidbody>();
-    body.velocity = velocity;
+    Rigidbody body = this.GetComponent<Rigidbody>();
+    body.velocity = Vector3.Lerp(body.velocity, velocity, smoothing_factor * Time.deltaTime); 
   }
 }
